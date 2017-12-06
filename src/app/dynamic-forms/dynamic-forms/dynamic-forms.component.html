@@ -1,0 +1,11 @@
+<form [formGroup]="form"
+      (ngSubmit)="form.valid && onSubmit()"
+      #formObj="ngForm">
+  <ng-container #container></ng-container>
+  <div class="btn-container">
+    <button type="submit" class="btn btn-primary">
+        {{buttonLabel || 'Submit'}}
+    </button>
+  </div>
+</form>
+
