@@ -19,8 +19,8 @@ import {
     Validators
 } from '@angular/forms';
 
-import { DynamicFormsControlComponent } from '../dynamic-forms-control/dynamic-forms-control.component';
 import { DynamicControlSchema } from '../interfaces/dynamic-control-schema.interface';
+import { DynamicFormsControlComponent } from '../dynamic-forms-control/dynamic-forms-control.component';
 
 @Component({
     selector: 'dynamic-forms',
@@ -37,7 +37,7 @@ export class DynamicFormsComponent implements OnChanges, OnInit {
 
     private _formSchema: DynamicControlSchema[];
 
-    buttonLabel: string;
+    private buttonLabel: string;
 
     @Input() set formSchema( value: DynamicControlSchema[] ) {
         this._formSchema= value;
@@ -60,10 +60,11 @@ export class DynamicFormsComponent implements OnChanges, OnInit {
     }
 
     ngOnChanges() {
-        if ( this._formSchema ) {
-             this.formContainer.clear();
-             this._formSchema.forEach( (controlSchema: DynamicControlSchema) => {
-                if ( controlSchema.type !== 'submit' ) {
+        if (this._formSchema) {
+            this.formContainer.clear();
+            this._formSchema.forEach( ( controlSchema: DynamicControlSchema ) => {
+                this.validateControlSchema( controlSchema );
+                if (controlSchema.type !== 'submit') {
                     this.form.addControl( controlSchema.name, this.instantiateControl( controlSchema ) );
                     this.injectControl( controlSchema, this.form, this.formObject );
                 }
@@ -72,17 +73,27 @@ export class DynamicFormsComponent implements OnChanges, OnInit {
     }
 
     ngOnInit() {
-        const button = this._formSchema.find( (controlSchema: DynamicControlSchema) => {
+        const button = this._formSchema.find( ( controlSchema: DynamicControlSchema ) => {
             return controlSchema.type === 'submit';
         });
 
-        if ( button ) {
+        if (button) {
             this.buttonLabel = button.label;
         }
     }
 
+    private validateControlSchema( controlSchema: DynamicControlSchema ) {
+        /*
+         *  ToDO: Validation Check on the Control Schema will be put in here
+         */
+    }
+
     private instantiateControl( controlSchema: DynamicControlSchema ): FormControl {
         let formControl = new FormControl();
+
+        if (controlSchema.hasOwnProperty( 'validate' )) {
+            formControl = this.setValidators( formControl, controlSchema.validate );
+        }
 
         return formControl;
     }
@@ -103,5 +114,33 @@ export class DynamicFormsComponent implements OnChanges, OnInit {
         const control = this.formContainer.createComponent( factory );
         this.configControlInstance( control, form, formObject, controlSchema );
     }
-    
+
+    private setValidators( control: FormControl, validate: any ): FormControl {
+        const validators = [];
+
+        if (validate.hasOwnProperty( 'required' ) && validate.required === true) {
+            validators.push( Validators.required );
+        }
+
+        if (validate.hasOwnProperty( 'minLength' )) {
+            validators.push( Validators.minLength( validate.minLength ) );
+        }
+
+        if (validate.hasOwnProperty( 'maxLength' )) {
+            validators.push( Validators.maxLength( validate.maxLength ) );
+        }
+
+        if (validate.hasOwnProperty( 'min' )) {
+            validators.push( Validators.min( validate.min ) );
+        }
+
+        if (validate.hasOwnProperty( 'max' )) {
+            validators.push( Validators.max( validate.max ) );
+        }
+
+        control.setValidators( validators );
+        control.updateValueAndValidity();
+
+        return control;
+    }
 }

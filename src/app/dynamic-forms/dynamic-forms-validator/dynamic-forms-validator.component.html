@@ -1,0 +1,22 @@
+<div class="bg-warning notification"
+     [ngStyle]="{'padding': '2px 5px 0px 5px'}"
+     role="alert"
+     *ngIf="group.get(config.name).errors && (group.get(config.name).touched || formObj.submitted === true)">
+    <div class="notification-details">
+        <p *ngIf="group.get(config.name).hasError('required')">
+            {{config.label}} is required.
+        </p>
+        <p *ngIf="group.get(config.name).hasError('minlength')">
+            Minimum {{group.get(config.name).errors.minlength.requiredLength}} characters are required.
+        </p>
+        <p *ngIf="group.get(config.name).hasError('maxlength')">
+            Maximum {{group.get(config.name).errors.maxlength.requiredLength}} characters are allowed.
+        </p>
+        <p *ngIf="group.get(config.name).hasError('min')">
+            Minimum allowed value is {{group.get(config.name).errors.min.min}}.
+        </p>
+        <p *ngIf="group.get(config.name).hasError('max')">
+            Maximum allowed value is {{group.get(config.name).errors.max.max}}.
+        </p>
+    </div>
+</div>

@@ -4,46 +4,46 @@
     <h4>Angular5 / Angular-CLI / Bootstrap3</h4>
     <div class="col-md-6">
         <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Base Configuration: Main Object</h3>
-          </div>
-          <div class="panel-body">
-              <dynamic-forms [formSchema]="formSchema"
-                             (formSubmit)="onSubmit($event)"></dynamic-forms>
-          </div>
+            <div class="panel-heading">
+                <h3 class="panel-title">Base Configuration: Main Object</h3>
+            </div>
+            <div class="panel-body">
+                <dynamic-forms [formSchema]="formSchema"
+                               (formSubmit)="onSubmit($event)"></dynamic-forms>
+            </div>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="panel panel-info">
-          <div class="panel-heading">
-            <h3 class="panel-title">Form Schema</h3>
-          </div>
-          <div class="panel-body">
-            <div class="code">
-              <pre>
-                {{formSchema | json}}
-              </pre>
+            <div class="panel-heading">
+                <h3 class="panel-title">Form Schema</h3>
             </div>
-          </div>
+            <div class="panel-body">
+                <div class="code">
+                    <pre>
+                        {{formSchema | json}}
+                    </pre>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="col-md-6">
         <div class="panel panel-info">
-          <div class="panel-heading">
-            <h3 class="panel-title">Form Values ( Flatten / Unflatten )</h3>
-          </div>
-          <div class="panel-body">
-            <div class="code">
-              <pre>
-                {{formValues| json}}
-              </pre>
-              <pre>
-                {{unFlattenFormValues| json}}
-              </pre>
+            <div class="panel-heading">
+                <h3 class="panel-title">Form Values ( Flatten / Unflatten )</h3>
             </div>
-          </div>
+            <div class="panel-body">
+                <div class="code">
+                    <pre>
+                        {{formValues| json}}
+                    </pre>
+                    <pre>
+                        {{unFlattenFormValues| json}}
+                    </pre>
+                </div>
+            </div>
         </div>
     </div>
 </div>

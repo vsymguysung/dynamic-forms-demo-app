@@ -33,12 +33,21 @@ export class AppComponent {
                 name: 'main__customStylesheetID[0]',
                 label: 'Custom Stylesheet ID',
                 placeholder: 'Type Id',
-                style: {"max-width": "300px"},
+                classes: "css-sel1 css-sel2",
+                style: { "max-width": "300px" },
+                validate: {
+                    required: true,
+                    minLength: 0,
+                    maxLength: 255
+                }
             },
             {
                 type: 'checkbox',
                 name: 'main__debug',
                 label: 'Debug',
+                validate: {
+                    required: true
+                }
             },
             {
                 type: 'submit',

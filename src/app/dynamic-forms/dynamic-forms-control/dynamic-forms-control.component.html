@@ -1,30 +1,37 @@
 <div [formGroup]="formGroup" novalidate>
 
-  <ng-container *ngIf="controlSchema.type === 'text' || controlSchema.type === 'password'">
-    <div class="form-group">
-      <label [for]="controlSchema.name">
-        {{controlSchema.label}}
-      </label>
-      <input [id]="controlSchema.name"
-             [className]="'form-control'"
-             [ngStyle]="controlSchema.style"
-             [type]="controlSchema.type"
-             [placeholder]="controlSchema.placeholder"
-             [formControlName]="controlSchema.name" />
-    </div>
-  </ng-container>
+    <ng-container *ngIf="controlSchema.type === 'text' || controlSchema.type === 'password'">
+        <div class="form-group">
+            <label [for]="controlSchema.name"
+                   [requiredFieldIndicator]="controlSchema.validate">
+                {{controlSchema.label}}
+            </label>
+            <input [id]="controlSchema.name"
+                   [type]="controlSchema.type"
+                   [placeholder]="controlSchema.placeholder"
+                   [className]="getClasses()"
+                   [ngStyle]="controlSchema.style"
+                   [formControlName]="controlSchema.name" />
+            <dynamic-forms-validator [formObj]="formObject"
+                               [group]="formGroup"
+                               [config]="controlSchema"></dynamic-forms-validator>
+        </div>
+    </ng-container>
 
-  <ng-container *ngIf="controlSchema.type === 'checkbox'">
-      <div class="form-group">
-        <label for="cbx-{{controlSchema.name}}"
-               [ngStyle]="{'padding-left': '20px'}"
-               [ngClass]="controlSchema.inline == true ? 'checkbox-inline':'checkbox'">
-          <input id="cbx-{{controlSchema.name}}"
-                 type="checkbox"
-                 [formControlName]="controlSchema.name">    
-            {{controlSchema.label}}
-        </label>
-      </div>
-  </ng-container>
+    <ng-container *ngIf="controlSchema.type === 'checkbox'">
+        <div class="form-group">
+            <label for="cbx-{{controlSchema.name}}"
+                   [requiredFieldIndicator]="controlSchema.validate"
+                   [ngStyle]="controlSchema.style">
+                <input id="cbx-{{controlSchema.name}}"
+                       type="checkbox"
+                       [formControlName]="controlSchema.name">
+                {{controlSchema.label}}
+            </label>
+            <dynamic-forms-validator [formObj]="formObject"
+                                 [group]="formGroup"
+                                 [config]="controlSchema"></dynamic-forms-validator>
+        </div>
+    </ng-container>
 
 </div>

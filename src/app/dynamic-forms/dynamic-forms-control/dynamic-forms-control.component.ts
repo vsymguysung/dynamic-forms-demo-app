@@ -23,11 +23,22 @@ import { DynamicControlSchema } from '../interfaces/dynamic-control-schema.inter
 })
 
 export class DynamicFormsControlComponent implements OnInit {
-    formGroup: FormGroup;
-    controlSchema: DynamicControlSchema;
-    formObject: NgForm;
+    public formGroup: FormGroup;
+    public controlSchema: DynamicControlSchema;
+    public formObject: NgForm;
 
     constructor() { }
+
+    private getClasses(): string  {
+        const defaultClass = 'form-control'; // For Bootstrap 3
+
+        if (this.controlSchema.classes && ( typeof this.controlSchema.classes === "string" )) {
+            return this.controlSchema.classes.concat(" " + defaultClass);
+        }
+        else {
+            return defaultClass;
+        }
+    }
 
     ngOnInit(): void {
     }
