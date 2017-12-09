@@ -8,8 +8,7 @@ import {
 import {
     NgForm,
     FormGroup,
-    FormControl,
-    Validators
+    FormControl
 } from '@angular/forms';
 
 import { DynamicControlSchema } from '../interfaces/dynamic-control-schema.interface';

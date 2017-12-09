@@ -3,25 +3,27 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class DynamicFormsUtilsService {
 
+    private defaultDelimeter: string = '__'
+
     constructor() { }
 
     /*
      * Unflatten Object 
      */
-    unflattenObj( data ): object {
+    unflattenObj( data: object, delimeter: string=this.defaultDelimeter ): object {
         if (Object( data ) !== data || Array.isArray( data )) return data;
 
         //
         // Reference regex = /(^.*?)__?([^.\[\]]+)|\[(\d+)\]/g;
         // 
-        const delimeter = '__';
         const regex = new RegExp("(^.*?)" + delimeter + "?([^.\\[\\]]+)|\\[(\\d+)\\]", "g");
         let   resultholder = {};
 
         for (let p in data) {
-            let cur = resultholder,
-                prop = "",
-                m;
+            let m;
+            let prop = "";
+            let cur = resultholder;
+
             while (m = regex.exec( p )) {
                 prop = ( prop === "" ) ? m[1] : prop;
                 cur = cur[prop] || ( cur[prop] = ( m[3] ? [] : {} ) );
@@ -36,9 +38,8 @@ export class DynamicFormsUtilsService {
     /*
      * Flatten Object
      */
-    flattenObj( data ): object {
+    flattenObj( data: object, delimeter: string=this.defaultDelimeter ): object {
         let result = {};
-        const delimeter = '__';
 
         const recurse = ( cur, prop ) => {
             if (Object(cur) !== cur) {
@@ -46,9 +47,9 @@ export class DynamicFormsUtilsService {
             }
             else if (Array.isArray( cur )) {
                 let l = cur.length;
-                for (let i = 0; i < l; i++)
+                for (let i = 0; i < l; i++) {
                     recurse( cur[i], prop + "[" + i + "]" );
-
+                }
                 if (l == 0) result[prop] = [];
             }
             else {
