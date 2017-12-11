@@ -13,10 +13,15 @@ export class DynamicFormsUtilsService {
     unflattenObj( data: object, delimeter: string=this.defaultDelimeter ): object {
         if (Object( data ) !== data || Array.isArray( data )) return data;
 
+        ////
+        //// Reference regex = /(^.*?)__?([^.\[\]]+)|\[(\d+)\]/g;
+        //// 
+        //const regex = new RegExp("(^.*?)" + delimeter + "?([^.\\[\\]]+)|\\[(\\d+)\\]", "g");
+
         //
-        // Reference regex = /(^.*?)__?([^.\[\]]+)|\[(\d+)\]/g;
+        // Reference regex = /((^.*)__)?([^.\[\]]+)|\[(\d+)\]/g
         // 
-        const regex = new RegExp("(^.*?)" + delimeter + "?([^.\\[\\]]+)|\\[(\\d+)\\]", "g");
+        const regex = new RegExp(  "((^.*)" + delimeter + ")?([^.\\[\\]]+)|\\[(\\d+)\\]" , "g" );
         let   resultholder = {};
 
         for (let p in data) {
@@ -25,9 +30,9 @@ export class DynamicFormsUtilsService {
             let cur = resultholder;
 
             while (m = regex.exec( p )) {
-                prop = ( prop === "" ) ? m[1] : prop;
-                cur = cur[prop] || ( cur[prop] = ( m[3] ? [] : {} ) );
-                prop = m[3] || m[2];
+                prop = ( prop === "" ) ? m[2] : prop;
+                cur = cur[prop] || ( cur[prop] = ( m[4] ? [] : {} ) );
+                prop = m[4] || m[3];
             }
             cur[prop] = data[p];
         }
